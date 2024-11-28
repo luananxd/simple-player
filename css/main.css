@@ -1,0 +1,24 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  padding-top: 100px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.wrapper {
+  width: 800px;
+  margin: 0 auto;
+}
+
+:root {
+  --white: #ffffff;
+  --lightgray: #e6e6e6;
+  --orange: #ff8800;
+  --border-small: 8px;
+}
