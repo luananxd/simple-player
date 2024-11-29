@@ -59,17 +59,28 @@ class Player {
 
   _handleMouseMove(event) {
     if(!this._state.isMouseDown) return
-
     this._state.playerLineCoords = this._state.playerLineCoords ?? getCoords(this._elements.line)
     const cursorX = event.clientX
-    const result = minmax((cursorX - this._state.playerLineCoords?.left) / this._state.playerLineCoords?.width, 0, 1)
+    this._setProgress(cursorX)
+  }
+
+  _handleLineClick(event) {
+    this._state.playerLineCoords = this._state.playerLineCoords ?? getCoords(this._elements.line)
+    const cursorX = event.clientX
+    this._setProgress(cursorX)
+    this._setCurrentTime()
+    this._setPlayerText()
+  }
+
+  // Set data
+
+  _setProgress(newPosition) {
+    const result = minmax((newPosition - this._state.playerLineCoords?.left) / this._state.playerLineCoords?.width, 0, 1)
     this._state.progress = result
 
     this._elements.progress.style.width = this._state.progress * 100 + '%'
     this._elements.handler.style.left = this._state.progress * 100 + '%'
   }
-
-  // Set data
 
   _setCurrentTime() {
     this._state.currentTime = Math.round(this._state.duration * this._state.progress)
@@ -98,6 +109,7 @@ class Player {
 
   _setListeners() {
     this._elements.handler?.addEventListener('mousedown', this._handleMouseDown.bind(this))
+    this._elements.line?.addEventListener('click', this._handleLineClick.bind(this))
     document.addEventListener('mouseup', this._handleMouseUp.bind(this))
     document.addEventListener('mousemove', this._handleMouseMove.bind(this))
   }
