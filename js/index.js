@@ -11,6 +11,9 @@ class Player {
     <div class="simple-player">
       <video src="${this.source}"></video>
       <div class="simple-player__controls">
+        <button type="button" class="simple-player__play simple-player__button">
+            ${Icons.play}
+          </button>
         <div class="simple-player__line">
           <div class="simple-player__handle" draggable="false"></div>
           <div class="simple-player__progress"></div>
@@ -34,6 +37,7 @@ class Player {
       progress: null,
       time: null,
       handler: null,
+      play: null,
     }
     this._state = {
       isMouseDown: false,
@@ -72,6 +76,24 @@ class Player {
     this._setPlayerText()
   }
 
+  _handlePlayClick() {
+    if(this._elements.source.paused) {
+      this._elements.source.play()
+    } else {
+      this._elements.source.pause()
+    }
+  }
+
+  _handleTimeupdate(event) {
+    const time = event.target.currentTime
+
+    this._state.progress = time / this._state.duration
+    this._state.currentTime = time
+
+    this._elements.progress.style.width = this._state.progress * 100 + '%'
+    this._elements.handler.style.left = this._state.progress * 100 + '%'
+  }
+
   // Set data
 
   _setProgress(newPosition) {
@@ -105,11 +127,14 @@ class Player {
     this._elements.line = this._container?.querySelector('.simple-player__line')
     this._elements.progress = this._container?.querySelector('.simple-player__progress')
     this._elements.time = this._container?.querySelector('.simple-player__time')
+    this._elements.play = this._container?.querySelector('.simple-player__play')
   }
 
   _setListeners() {
     this._elements.handler?.addEventListener('mousedown', this._handleMouseDown.bind(this))
     this._elements.line?.addEventListener('click', this._handleLineClick.bind(this))
+    this._elements.play?.addEventListener('click', this._handlePlayClick.bind(this))
+    this._elements.source?.addEventListener('timeupdate', this._handleTimeupdate.bind(this))
     document.addEventListener('mouseup', this._handleMouseUp.bind(this))
     document.addEventListener('mousemove', this._handleMouseMove.bind(this))
   }
