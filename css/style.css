@@ -7,6 +7,7 @@
   
   :root {
     --white: #ffffff;
+    --white-0-50: rgba(255, 255, 255, 0.5);
     --lightgray: #e6e6e6;
     --primary: #0080ff;
     --border-small: 8px;
@@ -22,20 +23,24 @@
   }
 
   .simple-player video {
+    display: block;
     width: 100%;
-    aspect-ratio: 16 / 9;
+
   }
   
   .simple-player__controls {
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
     display: flex;
     align-items: center;
     gap: 20px;
-    width: 100%;
-    padding: 15px 30px;
-    background-color: var(--white);
+    width: calc(100% - 20px);
+    padding: 10px 20px;
+    background-color: var(--white-0-50);
+    backdrop-filter: blur(10px);
+    border-radius: var(--border-small);
   }
   
   .simple-player__line {
@@ -44,6 +49,7 @@
     height: 5px;
     background-color: var(--lightgray);
     cursor: pointer;
+    border-radius: 4px;
   }
   
   .simple-player__handle {
@@ -53,9 +59,7 @@
     transform: translate(-50%, -50%);
     width: 20px;
     height: 20px;
-    background-color: var(--white);
     border-radius: 50%;
-    box-shadow: 0 0 5px 0 var(--lightgray);
     cursor: pointer;
   }
   
@@ -63,6 +67,7 @@
     width: 0;
     height: 100%;
     background-color: var(--primary);
+    border-radius: 4px;
   }
   
   .simple-player__time {
